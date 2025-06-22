@@ -1,12 +1,158 @@
 [project]
-name = "workbench"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.13.1"
 dependencies = [
     "dagster>=1.10.21",
     "dagster-dbt>=0.26.21",
     "dbt-duckdb>=1.9.3",
     "duckdb>=1.3.1",
+]
+description = "A collection of tools and utilities for data and machine learning engineering"
+name = "workbench"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.1.0"
+
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires      = ["setuptools"]
+
+[tool.setuptools.package-data]
+"workbench" = [
+    "workbench/dbt_project.yml",
+    "workbench/*.sql",
+    "workbench/*.yml",
+    "workbench/macros/**/*.sql",
+    "workbench/models/**/*.sql",
+    "workbench/models/**/*.yml",
+]
+
+
+[tool.dagster]
+code_location_name = "Workbench"
+module_name        = "workbench"
+
+[tool.pytest.ini_options]
+addopts = "-m 'not integration' --maxfail=1 --disable-warnings -q --durations=10"
+env = ["DAGSTER_TEST_MODE=1"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+    "ignore::dagster.BetaWarning",
+]
+log_cli = true
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+log_cli_format = "%(asctime)s [%(levelname)s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_level = "INFO"
+markers = [
+    "integration: slow tests that touch databases or external services",
+    "unit: fast, isolated tests",
+    "smoke: tests that are quick to run and do not require a database or external services",
+]
+norecursedirs = [
+    ".*",
+    "*cache",
+    "build",
+    "dist",
+    "data",
+    "*.egg",
+    "docs",
+    ".pytest_cache",
+    ".coverage",
+    "htmlcov",
+]
+python_classes = "Test*"
+python_files = "test_*.py"
+python_functions = "test_*"
+strict_markers = true
+testpaths = ["tests"]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "raise OSError",
+    "raise RuntimeError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+
+    # Don't complain about abstract methods, they aren't run:
+    "@(abc\\.)?abstractmethod",
+]
+ignore_errors = true
+
+[tool.ruff]
+exclude = [
+    ".git",
+    ".git-rewrite",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    "data",
+    ".pyenv",
+    ".ruff_cache",
+    ".venv",
+    ".vscode",
+    "build",
+    "dist",
+    "site-packages",
+    "venv",
+]
+extend-include = ["*.ipynb"]
+fix = true
+indent-width = 4
+line-length = 88
+target-version = "py312"
+unsafe-fixes = true
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+# unfixable = ["B"]
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+ignore = [
+    "C901",
+    "B023",
+    "CPY001",
+    "D213",   # multi-line-summary-second-line
+    "D211",   # no-blank-line-before-class
+    "D203",   # one-blank-line-before-class
+]
+select = ["E4", "E7", "E9", "F", "B", "Q", "I", "F401", "D212"]
+
+[tool.ruff.lint.isort]
+detect-same-package = true
+force-single-line   = false
+known-first-party   = []
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.per-file-ignores]
+"**/{tests,docs,tools}/*" = ["E402"]
+"__init__.py"             = ["E402"]
+
+[tool.ruff.format]
+docstring-code-format      = true
+docstring-code-line-length = "dynamic"
+indent-style               = "space"
+line-ending                = "auto"
+quote-style                = "double"
+skip-magic-trailing-comma  = false
+
+[tool.mypy]
+python_version      = "3.12"
+strict_optional     = true
+warn_unused_ignores = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "ruff>=0.12.0",
 ]
