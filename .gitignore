@@ -2,7 +2,7 @@
 target/
 dbt_packages/
 logs/
-
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -29,7 +29,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-
 
 # Unit test / coverage reports
 htmlcov/
