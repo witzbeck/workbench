@@ -36,3 +36,9 @@ models:
       +materialized: view
     calendar:
       +materialized: table
+      dateparts:
+        +materialized: table
+      relative:
+        +materialized: table
+      reports:
+        +materialized: table

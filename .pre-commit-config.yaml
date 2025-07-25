@@ -26,6 +26,7 @@ repos:
         entry: uv run sqlfluff fix
         language: system
         types: [sql]
+        args: ["--dialect", "duckdb", "--force", "--quiet"]
     -   id: pytest
         name: Run pytest
         entry: uv run pytest workbench_tests
