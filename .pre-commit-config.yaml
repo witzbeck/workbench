@@ -1,0 +1,34 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-json
+    -   id: check-toml
+    -   id: check-added-large-files
+-   repo: local
+    hooks:
+    -   id: uv-sync
+        name: uv sync
+        entry: uv sync --group dev
+        language: system
+        pass_filenames: false
+        always_run: true
+    -   id: ruff
+        name: ruff check and fix
+        entry: uv run ruff check --fix --unsafe-fixes
+        language: system
+        types: [python]
+    -   id: sqlfluff-fix
+        name: sqlfluff fix
+        entry: uv run sqlfluff fix
+        language: system
+        types: [sql]
+    -   id: pytest
+        name: Run pytest
+        entry: uv run pytest workbench_tests
+        language: system
+        pass_filenames: false
+        always_run: true

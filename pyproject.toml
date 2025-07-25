@@ -2,8 +2,11 @@
 dependencies = [
     "dagster>=1.10.21",
     "dagster-dbt>=0.26.21",
+    "dagster-duckdb>=0.27.3",
+    "dagster-duckdb-pandas>=0.27.3",
     "dbt-duckdb>=1.9.3",
     "duckdb>=1.3.1",
+    "pandas>=2.3.1",
 ]
 description = "A collection of tools and utilities for data and machine learning engineering"
 name = "workbench"
@@ -152,6 +155,7 @@ warn_unused_ignores = true
 
 [dependency-groups]
 dev = [
+    "dagster-webserver>=1.11.3",
     "pytest>=8.4.1",
     "pytest-cov>=6.2.1",
     "ruff>=0.12.0",
