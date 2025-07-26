@@ -45,7 +45,10 @@ jobs:
       - name: Install project dependencies
         run: uv sync --dev --all-extras
 
-      # Create a minimal dbt profile pointing at an in‑memory DuckDB database.
+      - name: Create DuckDB database if not exists
+        run: uv run python -c "import duckdb; conn = duckdb.connect('data/workbench.db'); conn.close()"
+
+      # Create a minimal dbt profile pointing at data/workbench.db.
       # Dagster’s dbt integration looks for a generated manifest.json;
       # `dbt compile` will create this file under target/ when run.
       - name: Set up dbt profile
@@ -53,13 +56,13 @@ jobs:
           mkdir -p ~/.dbt
           if [ ! -f ~/.dbt/profiles.yml ]; then
             cat <<YAML > ~/.dbt/profiles.yml
-workbench:
-  target: dev
-  outputs:
-    dev:
-      type: duckdb
-      path: ':memory:'
-YAML
+            workbench:
+              target: dev
+              outputs:
+                dev:
+                  type: duckdb
+                  path: 'data/workbench.db'
+            YAML
           fi
 
       # Generate target/manifest.json by compiling the dbt project.
