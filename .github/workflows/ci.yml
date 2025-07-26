@@ -51,19 +51,20 @@ jobs:
       - name: Set up dbt profile
         run: |
           mkdir -p ~/.dbt
-          cat <<'YAML' > ~/.dbt/profiles.yml
-          workbench:
-            target: dev
-            outputs:
-              dev:
-                type: duckdb
-                path: ':memory:'
-          YAML
+          if [ ! -f ~/.dbt/profiles.yml ]; then
+            cat <<'YAML' > ~/.dbt/profiles.yml
+            workbench:
+              target: dev
+              outputs:
+                dev:
+                  type: duckdb
+                  path: ':memory:'
+            YAML
+          fi
 
       # Generate target/manifest.json by compiling the dbt project.
       - name: Compile dbt project
-        working-directory: src/workbench
-        run: uv run dbt compile --profiles-dir ~/.dbt --project-dir .
+        run: if [ ! -f src/workbench/target/manifest.json ]; then uv run dbt compile --profiles-dir ~/.dbt --target-path src/workbench/target; fi
 
       # Run the pytest suite.  The test files for this repository live under
       # the `workbench_tests` directory, so we specify it explicitly here.
