@@ -1,6 +1,6 @@
-duckdb:
+workbench:
   target: dev
   outputs:
     dev:
       type: duckdb
-      path: /data/warehouse.db
+      path: data/workbench.db

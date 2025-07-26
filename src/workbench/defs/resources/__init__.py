@@ -8,7 +8,7 @@ db_path = DATA_PATH / "workbench.db"
 
 workbench_db = DuckDBResource(database=db_path)
 workbench_io = DuckDBPandasIOManager(database=db_path)
-dbt = DbtCliResource(project_dir=MODULE_PATH)
+dbt = DbtCliResource(project_dir=MODULE_PATH, profiles_dir=MODULE_PATH)
 resources = {
     "workbench_db": workbench_db,
     "workbench_io": workbench_io,

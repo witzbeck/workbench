@@ -1,0 +1,63 @@
+# GitHub Actions workflow for witzbeck/workbench
+#
+# This workflow sets up a Python environment using the uv package/venv manager,
+# installs the project along with all development and optional dependencies,
+# runs the repository's pytest test suite, and then validates the Dagster
+# definitions using the `dg` CLI.
+#
+# The workflow triggers on any push or pull request targeting the `main` branch.
+
+name: Test and Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository so that workflow steps have access to the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install uv and the requested Python version.  The uv setup action
+      # automatically installs Python if it is not already available on the
+      # runner.  Setting `python-version` pins the version used for this job.
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+          # Cache the uv download and dependency resolution between runs to
+          # speed up subsequent CI jobs.  The cache is keyed on the contents
+          # of your project's dependency files (e.g., pyproject.toml and
+          # uv.lock when present).
+          enable-cache: true
+
+      # Synchronize and install all dependencies defined in pyproject.toml.
+      # The `--dev` flag pulls in development dependencies such as pytest,
+      # while `--all-extras` ensures optional dependency groups are also
+      # installed.  If a uv.lock file exists, uv will respect the pinned
+      # versions; otherwise it will resolve and install the latest versions
+      # allowed by the version constraints in your project metadata.
+      - name: Install project dependencies
+        run: uv sync --dev --all-extras
+
+      # Run the pytest suite.  The test files for this repository live under
+      # the `workbench_tests` directory, so we specify it explicitly here.
+      # Any command-line options configured in the pyproject.toml (for
+      # example, markers or maxfail settings) are still respected.  Using
+      # `uv run` ensures that pytest executes within the uv-managed
+      # virtual environment.
+      - name: Run pytest
+        run: uv run pytest workbench_tests
+
+      # Validate Dagster definitions using the `dg` CLI.  Running this via
+      # `uv run` ensures that the command uses the same environment as the
+      # tests.  The `dg check defs` command loads and validates all Dagster
+      # definitions in the current project, returning a non‑zero exit code
+      # if any issues are found.
+      - name: Validate Dagster definitions
+        run: uv run dg check defs

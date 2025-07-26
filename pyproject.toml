@@ -156,9 +156,17 @@ warn_unused_ignores = true
 
 [dependency-groups]
 dev = [
+    "dagster-dg-cli>=1.11.3",
     "dagster-webserver>=1.11.3",
     "pytest>=8.4.1",
     "pytest-cov>=6.2.1",
     "ruff>=0.12.0",
     "sqlfluff>=3.4.2",
 ]
+
+[tool.dg]
+directory_type = "project"
+
+[tool.dg.project]
+code_location_target_module = "workbench.defs.definitions"
+root_module                 = "workbench"
