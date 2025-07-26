@@ -52,14 +52,14 @@ jobs:
         run: |
           mkdir -p ~/.dbt
           if [ ! -f ~/.dbt/profiles.yml ]; then
-            cat <<'YAML' > ~/.dbt/profiles.yml
-            workbench:
-              target: dev
-              outputs:
-                dev:
-                  type: duckdb
-                  path: ':memory:'
-            YAML
+            cat <<YAML > ~/.dbt/profiles.yml
+workbench:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ':memory:'
+YAML
           fi
 
       # Generate target/manifest.json by compiling the dbt project.
