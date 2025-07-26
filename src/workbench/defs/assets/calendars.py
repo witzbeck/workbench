@@ -1,8 +1,10 @@
 import datetime
 
 import pandas as pd
-from dagster import asset, load_assets_from_current_module
+from dagster import AutoMaterializePolicy, asset, load_assets_from_current_module
 from pandas.tseries.holiday import USFederalHolidayCalendar
+
+from workbench.constants import ASSET_GROUPS
 
 
 @asset
@@ -25,4 +27,4 @@ def holidays(holiday_min_date: datetime.date, holiday_max_date: datetime.date) -
     dates = USFederalHolidayCalendar().holidays(start=holiday_min_date, end=holiday_max_date)
     return pd.DataFrame({"holiday": dates})
 
-assets = load_assets_from_current_module()
+assets = load_assets_from_current_module(group_name=ASSET_GROUPS.CALENDAR, auto_materialize_policy=AutoMaterializePolicy.eager())
