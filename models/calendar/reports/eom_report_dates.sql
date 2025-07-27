@@ -1,4 +1,4 @@
-SELECT * FROM relative_dates AS c
+SELECT * FROM {{ ref('relative_dates') }} AS c
 WHERE
     c.year
     = (

@@ -29,7 +29,7 @@ FROM (
         D.YEAR_END,
         D.MONTH_START,
         D.MONTH_END
-    FROM RELATIVE_DATES AS D
+    FROM {{ ref('relative_dates') }} AS D
     GROUP BY
         D.YEAR, D.MONTH, D.YEAR_START, D.YEAR_END, D.MONTH_START, D.MONTH_END
 ) AS Y

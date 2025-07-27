@@ -12,6 +12,6 @@ FROM (
         MIN(d.date) AS year_start,
         MAX(d.date) AS year_end,
         COUNT(*) AS days_in_year
-    FROM dates AS d
+    FROM {{ ref('dates') }} AS d
     GROUP BY year_value
 ) AS c
