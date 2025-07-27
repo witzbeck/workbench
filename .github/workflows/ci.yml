@@ -19,29 +19,15 @@ jobs:
   test-and-validate:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository so that workflow steps have access to the code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Install uv and the requested Python version.  The uv setup action
-      # automatically installs Python if it is not already available on the
-      # runner.  Setting `python-version` pins the version used for this job.
       - name: Install uv and Python
         uses: astral-sh/setup-uv@v6
         with:
           python-version: '3.12'
-          # Cache the uv download and dependency resolution between runs to
-          # speed up subsequent CI jobs.  The cache is keyed on the contents
-          # of your project's dependency files (e.g., pyproject.toml and
-          # uv.lock when present).
           enable-cache: true
 
-      # Synchronize and install all dependencies defined in pyproject.toml.
-      # The `--dev` flag pulls in development dependencies such as pytest,
-      # while `--all-extras` ensures optional dependency groups are also
-      # installed.  If a uv.lock file exists, uv will respect the pinned
-      # versions; otherwise it will resolve and install the latest versions
-      # allowed by the version constraints in your project metadata.
       - name: Install project dependencies
         run: uv sync --dev --all-extras
 
@@ -51,38 +37,25 @@ jobs:
           uv run python -c "import duckdb; conn = duckdb.connect('data/workbench.db'); conn.close()"
 
       # Create a minimal dbt profile pointing at data/workbench.db.
-      # Dagster’s dbt integration looks for a generated manifest.json;
-      # `dbt compile` will create this file under target/ when run.
+      # Note: dbt expects the profile in ~/.dbt/profiles.yml by default.
       - name: Set up dbt profile
         run: |
-          if [ ! -f profiles.yml ]; then
-            cat <<YAML > profiles.yml
-            workbench:
-              target: dev
-              outputs:
-                dev:
-                  type: duckdb
-                  path: 'data/workbench.db'
-            YAML
-          fi
+          mkdir -p ~/.dbt
+          cat <<YAML > ~/.dbt/profiles.yml
+          workbench:
+            target: dev
+            outputs:
+              dev:
+                type: duckdb
+                path: 'data/workbench.db'
+          YAML
 
       # Generate target/manifest.json by compiling the dbt project.
       - name: Compile dbt project
-        run: if [ ! -f src/workbench/target/manifest.json ]; then uv run dbt compile --profiles-dir ~/.dbt --target-path src/workbench/target; fi
+        run: uv run dbt compile --profiles-dir ~/.dbt --target-path src/workbench/target
 
-      # Run the pytest suite.  The test files for this repository live under
-      # the `workbench_tests` directory, so we specify it explicitly here.
-      # Any command-line options configured in the pyproject.toml (for
-      # example, markers or maxfail settings) are still respected.  Using
-      # `uv run` ensures that pytest executes within the uv-managed
-      # virtual environment.
       - name: Run pytest
         run: uv run pytest workbench_tests
 
-      # Validate Dagster definitions using the `dg` CLI.  Running this via
-      # `uv run` ensures that the command uses the same environment as the
-      # tests.  The `dg check defs` command loads and validates all Dagster
-      # definitions in the current project, returning a non‑zero exit code
-      # if any issues are found.
       - name: Validate Dagster definitions
         run: uv run dg check defs
