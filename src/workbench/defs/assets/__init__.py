@@ -1,7 +1,7 @@
 from dagster_dbt import DbtCliResource, dbt_assets
 
+from ..projects import project
 from .calendars import assets as calendars_assets
-from .projects import project
 
 
 @dbt_assets(project=project, manifest=project.manifest_path)
