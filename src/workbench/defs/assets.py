@@ -13,6 +13,7 @@ from ..projects import project
 
 @asset(
     kinds={"python"},
+    key_prefix=["main"],
     io_manager_key="workbench_io",
     group_name=ASSET_GROUPS.CALENDAR.value,
     auto_materialize_policy=AutoMaterializePolicy.eager(),
