@@ -7,21 +7,21 @@ from pandas.tseries.holiday import USFederalHolidayCalendar
 from workbench.constants import ASSET_GROUPS
 
 
-@asset
+@asset(kinds={"python"})
 def holiday_min_date() -> datetime.date:
     """Returns January 1 of five years ago."""
     today = datetime.date.today()
     return datetime.date(today.year - 5, 1, 1)
 
 
-@asset
+@asset(kinds={"python"})
 def holiday_max_date() -> datetime.date:
     """Returns December 31 of next year."""
     today = datetime.date.today()
     return datetime.date(today.year + 1, 12, 31)
 
 
-@asset
+@asset(kinds={"python"})
 def holidays(holiday_min_date: datetime.date, holiday_max_date: datetime.date) -> pd.DataFrame:
     """Returns a DataFrame of US federal holidays between holiday_min_date and holiday_max_date."""
     dates = USFederalHolidayCalendar().holidays(start=holiday_min_date, end=holiday_max_date)
