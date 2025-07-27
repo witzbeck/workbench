@@ -52,7 +52,7 @@ jobs:
 
       # Generate target/manifest.json by compiling the dbt project.
       - name: Compile dbt project
-        run: uv run dbt compile --profiles-dir ~/.dbt --target-path src/workbench/target
+        run: uv run dbt compile --profiles-dir ~/.dbt
 
       - name: Run pytest
         run: uv run pytest workbench_tests

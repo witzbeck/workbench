@@ -27,9 +27,10 @@ repos:
         language: system
         types: [sql]
         args: ["--dialect", "duckdb", "--force", "--quiet"]
-    -   id: pytest
-        name: Run pytest
-        entry: uv run pytest workbench_tests
-        language: system
-        pass_filenames: false
-        always_run: true
+    #-   id: pytest
+    #    name: Run pytest
+    #    entry: uv run pytest workbench_tests
+    #    language: system
+    #    types: [python]
+    #    pass_filenames: false
+    #    always_run: false
