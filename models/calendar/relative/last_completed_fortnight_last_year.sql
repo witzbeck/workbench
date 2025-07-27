@@ -9,6 +9,6 @@ WITH F AS (
 SELECT C.*
 FROM {{ ref('relative_dates') }} AS C
 INNER JOIN F ON
-    C.WEEKOFYEAR = F.WEEKOFYEAR
+    C.WEEK = F.WEEK
     AND C.DAYOFWEEK = F.DAYOFWEEK
     AND YEAR(F.DATE) - 1 = C.YEAR
