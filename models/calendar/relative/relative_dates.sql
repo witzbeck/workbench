@@ -4,7 +4,7 @@ SELECT
     d.year,
     d.quarter,
     d.month,
-    d.weekofyear,
+    d.week,
     d.dayofyear,
     d.dayofmonth,
     d.dayofweek,
@@ -64,6 +64,6 @@ INNER JOIN {{ ref('months') }} AS m
 INNER JOIN {{ ref('weeks') }} AS w
     ON
         y.year = w.year
-        AND d.weekofyear = w.weekofyear
+        AND d.week = w.week
         AND d.date BETWEEN w.week_start AND w.week_end
 INNER JOIN {{ ref('dayofweek') }} AS dw ON d.dayofweek = dw.dayofweek
