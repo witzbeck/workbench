@@ -1,5 +1,4 @@
-"""Unit tests for holiday assets and associated asset checks.
-"""
+"""Unit tests for holiday assets and associated asset checks."""
 
 import datetime
 
@@ -55,6 +54,7 @@ def test_holidays_no_duplicates():
 
 # Tests for asset check functions
 
+
 def test_holiday_min_date_check_success():
     """Check that holiday_min_date_check passes for the correct date."""
     result = holiday_min_date_check(holiday_min_date())
@@ -107,7 +107,9 @@ def test_holidays_within_bounds_check_success_and_failure():
     """Check holidays_within_bounds_check rejects dates outside the range and accepts valid ones."""
     min_date = holiday_min_date()
     max_date = holiday_max_date()
-    out_of_bounds_df = pd.DataFrame({"holiday": [pd.to_datetime(min_date) - pd.Timedelta(days=1)]})
+    out_of_bounds_df = pd.DataFrame(
+        {"holiday": [pd.to_datetime(min_date) - pd.Timedelta(days=1)]}
+    )
     result_fail = holidays_within_bounds_check(out_of_bounds_df)
     assert not result_fail.passed
     valid_df_bounds = holidays(min_date, max_date)

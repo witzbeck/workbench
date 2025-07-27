@@ -16,9 +16,14 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
-    -   id: ruff
+    -   id: ruff-fix
         name: ruff check and fix
         entry: uv run ruff check --fix --unsafe-fixes
+        language: system
+        types: [python]
+    -   id: ruff-format
+        name: ruff format
+        entry: uv run ruff format
         language: system
         types: [python]
     -   id: sqlfluff-fix

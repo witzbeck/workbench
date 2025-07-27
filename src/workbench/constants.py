@@ -11,6 +11,7 @@ class ASSET_GROUPS(Enum):
     CALENDAR = "Calendar"
     REPORTS = "Reports"
 
+
 MODULE_PATH = Path(__file__).parent
 MODULE_SOURCE_PATH = MODULE_PATH.parent
 PROJECT_PATH = MODULE_SOURCE_PATH.parent

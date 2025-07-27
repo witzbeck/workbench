@@ -1,4 +1,3 @@
-
 from dagster import Definitions
 
 from .assets import assets
