@@ -1,11 +1,3 @@
-from dagster import job
+from dagster import define_asset_job
 
-from .assets.calendars import holiday_max_date, holiday_min_date, holidays
-
-
-@job
-def update_holidays():
-    holidays(holiday_min_date(), holiday_max_date())
-
-
-jobs = [update_holidays]
+jobs = [define_asset_job("update_holidays", selection = "holidays")]

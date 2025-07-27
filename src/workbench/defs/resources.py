@@ -2,7 +2,7 @@ from dagster_dbt import DbtCliResource
 from dagster_duckdb import DuckDBResource
 from dagster_duckdb_pandas import DuckDBPandasIOManager
 
-from workbench.constants import DATA_PATH, PROJECT_PATH
+from ..constants import DATA_PATH, PROJECT_PATH
 
 db_path = DATA_PATH / "workbench.db"
 
