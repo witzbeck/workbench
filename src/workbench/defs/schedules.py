@@ -1,4 +1,4 @@
-from dagster import build_schedule_from_job
+from dagster import ScheduleDefinition
 from dagster_dbt import build_schedule_from_dbt_selection
 
 from .assets import dbt_calendar_assets
@@ -11,8 +11,9 @@ dbt_calendar_schedule = build_schedule_from_dbt_selection(
     dbt_select="*",
 )
 
-update_holidays_schedule = build_schedule_from_job(
-    update_holidays,
+update_holidays_schedule = ScheduleDefinition(
+    name="update_holidays_schedule",
+    job=update_holidays,
     cron_schedule="0 0 * * *",
 )
 
