@@ -1,11 +1,8 @@
-from dagster_dbt import DbtCliResource, DbtProject, dbt_assets
-
-from workbench.constants import PROJECT_PATH
+from dagster_dbt import DbtCliResource, dbt_assets
 
 from .calendars import assets as calendars_assets
+from .projects import project
 
-project = DbtProject(project_dir=PROJECT_PATH)
-project.prepare_if_dev()
 
 @dbt_assets(project=project, manifest=project.manifest_path)
 def dbt_calendar_assets(context, dbt: DbtCliResource):
