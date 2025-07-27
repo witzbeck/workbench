@@ -27,4 +27,4 @@ def holidays(holiday_min_date: datetime.date, holiday_max_date: datetime.date) -
     dates = USFederalHolidayCalendar().holidays(start=holiday_min_date, end=holiday_max_date)
     return pd.DataFrame({"holiday": dates})
 
-assets = load_assets_from_current_module(group_name=ASSET_GROUPS.CALENDAR, auto_materialize_policy=AutoMaterializePolicy.eager())
+assets = load_assets_from_current_module(group_name=ASSET_GROUPS.CALENDAR.value, auto_materialize_policy=AutoMaterializePolicy.eager())
