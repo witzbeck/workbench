@@ -6,6 +6,7 @@ from workbench.constants import PROJECT_PATH
 
 from .asset_checks import asset_checks as py_asset_checks
 from .assets import assets
+from .jobs import jobs
 from .resources import resources
 from .schedules import schedules
 
@@ -17,4 +18,5 @@ defs = Definitions(
     asset_checks=py_asset_checks,
     resources=resources,
     schedules=schedules,
+    jobs=jobs,
 )
