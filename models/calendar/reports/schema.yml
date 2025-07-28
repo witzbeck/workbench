@@ -1,0 +1,71 @@
+
+version: 2
+
+models:
+  - name: business_days_per_month
+    description: "Business days per month excluding holidays"
+    columns:
+      - name: year
+        tests:
+          - not_null
+      - name: month
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      - name: n_business_days
+        tests:
+          - not_null
+
+  - name: eom_report_dates
+    description: "End of month report dates"
+    columns:
+      - name: month_end
+        tests:
+          - not_null
+      - name: year
+        tests:
+          - not_null
+      - name: month
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+  - name: eoq_report_dates
+    description: "End of quarter report dates"
+    columns:
+      - name: quarter_end
+        tests:
+          - not_null
+      - name: year
+        tests:
+          - not_null
+      - name: quarter
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+
+  - name: report_dates
+    description: "General report dates"
+    columns:
+      - name: current_year
+        tests:
+          - not_null
+      - name: current_month
+        tests:
+          - not_null
+
+  - name: week_first_business_day
+    description: "First business day of the week"
+    columns:
+      - name: year
+        tests:
+          - not_null
+      - name: week
+        tests:
+          - not_null
+      - name: first_business_day
+        tests:
+          - not_null

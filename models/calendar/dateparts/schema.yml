@@ -1,0 +1,78 @@
+
+version: 2
+
+models:
+  - name: dayofweek
+    description: "Day of week details"
+    columns:
+      - name: dayofweek
+        tests:
+          - unique
+          - not_null
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5, 6]
+      - name: isweekend
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+      - name: isweekday
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+
+  - name: months
+    description: "Month details"
+    columns:
+      - name: month
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - year
+            - month
+
+  - name: quarters
+    description: "Quarter details"
+    columns:
+      - name: quarter
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - year
+            - quarter
+
+  - name: weeks
+    description: "Week details"
+    columns:
+      - name: week
+        tests:
+          - not_null
+      - name: week_start
+        tests:
+          - not_null
+      - name: week_end
+        tests:
+          - not_null
+
+  - name: years
+    description: "Year details"
+    columns:
+      - name: year
+        tests:
+          - unique
+          - not_null
+      - name: year_start
+        tests:
+          - not_null
+      - name: year_end
+        tests:
+          - not_null

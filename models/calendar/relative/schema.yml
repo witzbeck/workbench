@@ -1,0 +1,137 @@
+
+version: 2
+
+models:
+  - name: last_30_days
+    description: "Last 30 days relative to today"
+    tests:
+      - expect_row_count:
+          expected: 30
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: this_ytd
+    description: "This year to date"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: last_ytd
+    description: "Last year to date"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: one_year_rolling
+    description: "One year rolling period"
+    tests:
+      - expect_row_count_between:
+          min: 365
+          max: 366
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: five_years_rolling
+    description: "Five years rolling period"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: last_completed_month
+    description: "Last completed month"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: last_completed_quarter
+    description: "Last completed quarter"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: last_completed_week
+    description: "Last completed week"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  # Add similar for other relative models: last_month, last_year, this_month, this_year, second_last_*, etc.
+  - name: last_month
+    description: "Last month"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: last_year
+    description: "Last year"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: this_month
+    description: "This month"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: this_year
+    description: "This year"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: second_last_completed_month
+    description: "Second last completed month"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: second_last_completed_quarter
+    description: "Second last completed quarter"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: second_last_completed_week
+    description: "Second last completed week"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  - name: last_completed_fortnight
+    description: "Last completed fortnight"
+    columns:
+      - name: date
+        tests:
+          - not_null
+  - name: second_last_completed_fortnight
+    description: "Second last completed fortnight"
+    columns:
+      - name: date
+        tests:
+          - not_null
+  - name: last_completed_fortnight_last_year
+    description: "Last completed fortnight last year"
+    columns:
+      - name: date
+        tests:
+          - not_null
+
+  # Fortnights and others similarly

@@ -9,3 +9,11 @@ sources:
         meta:
           dagster:
             asset_key: ["holidays"]
+        columns:
+          - name: date
+            tests:
+              - unique
+              - not_null
+          - name: holiday
+            tests:
+              - not_null
