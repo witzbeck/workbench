@@ -11,10 +11,8 @@ class ASSET_GROUPS(Enum):
     CALENDAR = "Calendar"
     REPORTS = "Reports"
 
-
-MODULE_PATH = Path(__file__).parent
-MODULE_SOURCE_PATH = MODULE_PATH.parent
-PROJECT_PATH = MODULE_SOURCE_PATH.parent
-DATA_PATH = PROJECT_PATH / "data"
-DBT_PROJECT_FILE = MODULE_PATH / "dbt_project.yml"
-DBT_PROFILES_FILE = MODULE_PATH / "profiles.yml"
+# Paths --------------------------------------------------------------------
+DATA_PATH = Path("/opt/dagster/data")
+DBT_PROJECT_FILE = Path("/home/abeckwit/repos/workbench/dbt_project.yml")
+DBT_PROFILES_FILE = Path("/home/abeckwit/repos/workbench/profiles.yml")
+PROJECT_PATH = Path("/home/abeckwit/repos/workbench")

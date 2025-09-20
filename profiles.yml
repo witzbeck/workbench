@@ -3,4 +3,4 @@ workbench:
   outputs:
     dev:
       type: duckdb
-      path: data/workbench.db
+      path: /opt/dagster/data/workbench.db
